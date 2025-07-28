@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+    body {
+        background: linear-gradient(135deg, #c2e9fb, #a1c4fd);
+        font-family: Arial, sans-serif;
+    }
+    .card {
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .card:hover {
+        transform: translateY(-3px);
+    }
+</style>
+
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Admin Dashboard</h2>
+            <a href="/admin/logout" class="btn btn-outline-danger">Logout</a>
+        </div>
+
+        <div class="row">
+            <!-- Doctors Count -->
+            <div class="col-md-3 mb-4">
+                <div class="card text-white bg-primary">
+                    <div class="card-body text-center">
+                        <h4>Doctors</h4>
+                        <h2 id="doctor_count">Loading...</h2>
+                        <a href="/admin/doctors" class="btn btn-light btn-sm mt-2">Manage Doctors</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Patients Count -->
+            <div class="col-md-3 mb-4">
+                <div class="card text-white bg-success">
+                    <div class="card-body text-center">
+                        <h4>Patients</h4>
+                        <h2 id="patient_count">Loading...</h2>
+                        <a href="/admin/patients" class="btn btn-light btn-sm mt-2">Manage Patients</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pharmacies Count -->
+            <div class="col-md-3 mb-4">
+                <div class="card text-white bg-warning">
+                    <div class="card-body text-center">
+                        <h4>Pharmacies</h4>
+                        <h2 id="pharmacy_count">Loading...</h2>
+                        <a href="/admin/pharmacies" class="btn btn-light btn-sm mt-2">Manage Pharmacies</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pharmacists Count -->
+            <div class="col-md-3 mb-4">
+                <div class="card text-white bg-danger">
+                    <div class="card-body text-center">
+                        <h4>Pharmacists</h4>
+                        <h2 id="pharmacist_count">Loading...</h2>
+                        <a href="/admin/pharmacists" class="btn btn-light btn-sm mt-2">Manage Pharmacists</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Consultation History Count -->
+            <div class="col-md-3 mb-4">
+                <div class="card text-white bg-info">
+                    <div class="card-body text-center">
+                        <h4>Consultation History</h4>
+                        <h2 id="consultation_count">Loading...</h2>
+                        <a href="/admin/patient_consultation_history" class="btn btn-light btn-sm mt-2">Manage Consultation History</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p id="error-message" class="text-danger"></p>
+    </div>
+
+    <script>
+        async function fetchDashboardCounts() {
+            try {
+                const response = await fetch('/api/admin/dashboard');
+                if (!response.ok) throw new Error('Failed to fetch data');
+                
+                const data = await response.json();
+
+                document.getElementById('doctor_count').textContent = data.doctorCount;
+                document.getElementById('patient_count').textContent = data.patientCount;
+                document.getElementById('pharmacy_count').textContent = data.pharmacyCount;
+                document.getElementById('pharmacist_count').textContent = data.pharmacistCount;
+                document.getElementById('consultation_count').textContent = data.consultationCount;
+            } catch (error) {
+                document.getElementById('error-message').innerText = 'Error loading data';
+                console.error(error);
+            }
+        }
+
+        fetchDashboardCounts();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

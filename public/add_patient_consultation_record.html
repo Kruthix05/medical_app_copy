@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Patient Consultation Record</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #c2e9fb, #a1c4fd);
+            font-family: Arial, sans-serif;
+        }
+        .card {
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+        .card-header {
+            background-color: #434343;
+            color: white;
+            border-radius: 10px 10px 0 0;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        .alert-danger {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-center mb-0">Add Consultation Record</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="messages"></div>
+                        <form action="/doctor/add_patient_consultation_record" method="POST">
+                            <div class="mb-3">
+                                <label for="patient_medical_id" class="form-label">Patient Medical ID:</label>
+                                <input type="text" class="form-control" id="patient_medical_id" name="patient_medical_id" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description:</label>
+                                <textarea class="form-control" id="description" name="description" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="prescription" class="form-label">Prescription:</label>
+                                <textarea class="form-control" id="prescription" name="prescription"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="report_link" class="form-label">Report Link:</label>
+                                <input type="url" class="form-control" id="report_link" name="report_link">
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary">Add Consultation Record</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get URL parameters and display success/error messages
+        const params = new URLSearchParams(window.location.search);
+        const successMessage = params.get('success');
+        const errorMessage = params.get('error');
+
+        if (successMessage) {
+            document.getElementById('messages').innerHTML = 
+                `<div class="alert alert-success" role="alert">${successMessage}</div>`;
+        }
+
+        if (errorMessage) {
+            document.getElementById('messages').innerHTML = 
+                `<div class="alert alert-danger" role="alert">${errorMessage}</div>`;
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
